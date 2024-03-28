@@ -1,5 +1,5 @@
-import React from 'react'
-import { DELETE_TASK, ERROR, GET_TASKS, LOADING,  PATCH_TASK,  POST_TASKS } from './actionTypes'
+
+import { DELETE_TASK, ERROR, GET_TASKS, LOADING,  LOGIN,  LOGOUT,  PATCH_TASK,  POST_TASKS, SIGNUP, Signup } from './actionTypes'
 
 const initialState ={
     tasks :[],
@@ -7,7 +7,6 @@ const initialState ={
     isLoading:false,
     isError:false,
     token:"",
-    isAuth:false
 }
 
  export const reducer = (state=initialState, {type,payload}) => {
@@ -29,6 +28,15 @@ const initialState ={
         }
         case DELETE_TASK: {
             return {...state, isLoading:false}
+        }
+        case SIGNUP: {
+            return {...state, isLoading:false}
+        }
+        case LOGIN: {
+            return {...state, isLoading:false , token: payload.token,user:payload.user}
+        }
+        case LOGOUT: {
+            return initialState
         }
         default : {
             return state 

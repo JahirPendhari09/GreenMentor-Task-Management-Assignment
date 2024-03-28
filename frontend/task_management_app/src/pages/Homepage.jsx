@@ -5,24 +5,26 @@ import "../App.css";
 import { Modal } from "../components/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { getTasks, postTasks } from "../redux/action";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphaGlyIiwidXNlcklEIjoiNjYwNDZmZjE1YmQ5Y2VmOGU0YWFhYTlkIiwiaWF0IjoxNzExNTY2ODQ5fQ.MrVzxBX73C-v1wEQBdZ7bJx3f_QIlGAC_A5SFVNb7aY'
 
 export const initialStateTask = { title: '', description: '' }
 const Homepage = () => {
-    // const [todos, setTodos] = useState([]);
+
+    const navigate = useNavigate();
     const tasks = useSelector(store => store.tasks)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState(initialStateTask);
     const dispatch = useDispatch();
     const [render , setRender]= useState(false)
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+    const token = useSelector(store => store.token)
+    let isAuth = token || localStorage.getItem("token") ;
+    if(isAuth == undefined) isAuth=""
+
+    const openModal = () =>  setIsModalOpen(true);
+    const closeModal = () =>   setIsModalOpen(false);
 
     const submitNewTodo = (e) => {
         e.preventDefault();
@@ -34,7 +36,6 @@ const Homepage = () => {
                 description: formData.description,
                 status: false,
             };
-           
             dispatch(postTasks(newTodo,token))
             setFormData(initialStateTask)
             closeModal()
@@ -46,8 +47,17 @@ const Homepage = () => {
         setFormData({ ...formData, [name]: value })
     }
 
-    const hendleRender =()=>{
-        setRender(!render)
+    const hendleRender =()=>  setRender(!render)
+    
+    const handleOpenModal = ()=>{
+        if(!isAuth)
+        {
+            alert("Please Login");
+            navigate("/login")
+        }
+        else {
+            openModal()
+        }
     }
 
     useEffect(()=>{
@@ -59,7 +69,7 @@ const Homepage = () => {
             <h1 className="text-3xl font-bold mb-8  mt-5">All Tasks</h1>
             <div className="w-11/12 m-auto">
                 <div className="mb-5">
-                    <button type="button" onClick={openModal} className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Create new Task</button>
+                    <button type="button" onClick={handleOpenModal} className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Create new Task</button>
                 </div>
             
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 grid-cols-3 gap-10">

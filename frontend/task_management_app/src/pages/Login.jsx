@@ -1,29 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { login } from "../redux/action";
 
 const Login = () => {
    
-    const [user, setUser] = useState({ email: "", password: "" });
-    const [formData, setFormData] = useState({ email: null, password: null,});
+    const [formData, setFormData] = useState({ email: null, password: null});
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData)
-
+        dispatch(login(formData,navigate))
     };
-
-    const getStoredUserData = () => {
-        const storedUserData = localStorage.getItem('user');
-
-        if (storedUserData) {
-            const parsedUserData = JSON.parse(storedUserData);
-            setUser(parsedUserData);
-        }
-    };
-
-    useEffect(() => {
-        getStoredUserData();
-    }, []);
 
     const handleChange =(e)=>{
         const {name , value} = e.target

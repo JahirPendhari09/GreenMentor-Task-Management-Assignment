@@ -1,38 +1,34 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { signup } from "../redux/action";
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
     const [formData, setFormData] = useState({
         email: null,
         password: null,
         username: null,
         confirmPassword: null
-      });
-
-
+    });
+  
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(formData.password!== formData.confirmPassword)
-        {
-            return alert("Password Does not Match")
-        }
+        if(formData.password!== formData.confirmPassword)  return alert("Password Does not Match")
         const user = {
             email: formData.email,
             password: formData.password,
             username: formData.username
         };
-       
-        // const userDataJSON = JSON.stringify(user);
-        // localStorage.setItem('user', userDataJSON);
-        alert("Sign up success redirect to login");
-        // window.location.href = "/login";
+        dispatch(signup(user,navigate))
     };
 
     const handleChange =(e)=>{
         const  { name , value } = e.target
         setFormData({...formData , [name]:value})
     }
-
+    
     return (
         <div className="flex justify-center items-center mt-10 ">
             <div class=" border border-black rounded-lg p-8 sm:w-90 lg:w-96">
