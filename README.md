@@ -41,6 +41,12 @@ https://drive.google.com/file/d/1i5PVUtcVZTGvn-vOV9E5nwTfjdpFh83b/view?usp=shari
    Start the development server:   ``` npm run server ``` <br/>
    Open your browser and visit:   ``` http://localhost:8080 ``` <br/>
 
+
+   ## Features 
+   
+  - Authentication
+  - Manage tasks: Create, update, and delete todos with ease.
+
  
    # Credits <br/>
    This project was developed by ```Jahir Pendhari``` as a part of ```Masai School``` training program.
