@@ -6,7 +6,8 @@ export const getTasks = () => (dispatch) => {
     fetch("https://backend-greenmentor.onrender.com/tasks", {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "authorization": `Bearer ${localStorage.getItem('token')}`
         },
     }).then(res => res.json())
         .then(res => {
